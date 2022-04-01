@@ -1,5 +1,4 @@
-title: 'Weekly Exercise #5, Problem #7'
-author: "Felicia Peterson"
+
 
 library(tidyverse)     # for data cleaning and plotting
 library(gardenR)       # for Lisa's garden data
@@ -18,4 +17,7 @@ library(gganimate)     # for adding animation layers to ggplots
 library(transformr)    # for "tweening" (gganimate)
 library(gifski)        # need the library for creating gifs but don't need to load each time
 library(shiny)         # for creating interactive apps
-
+library(shiny)
+ui <- fluidPage("United States’ daily number of COVID cases per 100,000 over time")
+server <- function(input, output) {}
+shinyApp(ui = ui, server = server)
