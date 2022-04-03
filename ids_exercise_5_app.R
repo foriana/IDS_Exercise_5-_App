@@ -26,10 +26,14 @@ library(gifski)        # need the library for creating gifs but don't need to lo
 library(shiny)         # for creating interactive apps
 
 ui <- fluidPage("United States’ daily number of COVID cases per 100,000 over time"), 
-selectInput(inputId = "year",
-            label = "Year", 
-            value = "",
-            placeholder = "2019"),
+selectInput("state",
+            "State",
+            choices = list(state)),
+sliderInput(inputId = "year",
+            label = "Year Range", 
+            min = 2019,
+            max = 2022,
+            sep = ""),
 submitButtom(text = "Submit")
 server <- function(input, output) {}
 shinyApp(ui = ui, server = server)
