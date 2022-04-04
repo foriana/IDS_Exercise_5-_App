@@ -13,14 +13,14 @@ library(shiny)         # for creating interactive apps
 ui <- fluidPage("United States’ daily number of COVID cases per 100,000 over time",
 selectInput("state",
             "State",
-            choices = list("state")),
+            choices = list(state),
 sliderInput(inputId = "date",
             label = "Date Range", 
-            min = as.Date("2020-01-21", "%Y-%m-%d"),
-            max = as.Date("2022-04-03", "%Y-%m-%d"),
-            value = as.Date("2020-01-21","%Y-%m-%d" ),
+            min = as.Date("2020-01-21"),
+            max = as.Date("2022-04-03"),
+            value = as.Date("2020-01-21"),
             sep = ""),
-submitButton(text = "Submit"))
+submitButton(text = "Submit")))
 
 server <- function(input, output) {output$timeplot <- renderPlot({
   covid19 <- read_csv("us-states.csv")
