@@ -8,21 +8,32 @@
 #Color can be used if needed.
 
 library(tidyverse)     # for data cleaning and plotting
-library(gardenR)       # for Lisa's garden data
 library(lubridate)     # for date manipulation    # for adding animation layers to ggplots
-library(transformr)    # for "tweening" (gganimate)
-library(gifski)        # need the library for creating gifs but don't need to load each time
 library(shiny)         # for creating interactive apps
-ui <- fluidPage("United States’ daily number of COVID cases per 100,000 over time")
+ui <- fluidPage("United States’ daily number of COVID cases per 100,000 over time",
 selectInput("state",
             "State",
-            choices = list(state))
-sliderInput(inputId = "year",
-            label = "Year Range", 
-            min = 2019,
-            max = 2022,
-            sep = "")
-submitButtom(text = "Submit")
-server <- function(input, output) {covid19 <- read_csv("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv")
+            choices = list("state")),
+sliderInput(inputId = "date",
+            label = "Date Range", 
+            min = as.Date("2020-01-21", "%Y-%m-%d"),
+            max = as.Date("2022-04-03", "%Y-%m-%d"),
+            value = as.Date("2020-01-21","%Y-%m-%d" ),
+            sep = ""),
+submitButton(text = "Submit"))
+
+server <- function(input, output) {output$timeplot <- renderPlot({
+  covid19 <- read_csv("us-states.csv")
+  covid19 <- covid19 %>%
+    mutate(year = ydate(date))
+  covid19 %>% 
+    filter(state == input$state, 
+           date == input$date) %>% 
+    ggplot(aes(x = date, 
+               y = case)) +
+    geom_line(color = input$state) 
+})
+  
+
 }
 shinyApp(ui = ui, server = server)
